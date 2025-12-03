@@ -18,6 +18,16 @@ Snake::Snake(int size, int speed, int FPS){
     generate();
 }
 
+Snake::Snake(int size, int speed, int FPS, bool isAi, QPoint initialPosition){
+    this->size = size;
+    this->speed = speed;
+    this->FPS = FPS;
+    this->stepLength = speed / FPS;
+    this->score = 0;
+    this->isAi = isAi;
+    generate(initialPosition);
+}
+
 QVector<QPoint> Snake::getBody() const
 {
     return body;
@@ -121,6 +131,16 @@ void Snake::generate(){
     
 }
 
+void Snake::generate(QPoint initialPosition){
+    direction = UP;
+    head = initialPosition;
+    body.append(head);
+    // 将初始身体放在头部的后方，避免第一次移动时重叠
+    for(int i = 1; i < 50 / stepLength; i++){
+        body.append(body.last() + QPoint(0, +stepLength));
+    }
+}
+
 void Snake::reGenerate(){
     body.clear();
     score = 0;
@@ -139,4 +159,40 @@ void Snake::setSpeed(int speed){
 
 int Snake::getTotalLength() const{
     return stepLength * body.size();
+}
+
+Snake::Colour Snake::getColour() const{
+    return colour;
+}
+
+void Snake::setColour(Snake::Colour colour){
+    this->colour = colour;
+}
+
+bool Snake::IsEnabled() const{
+    return isEnabled;
+}
+
+void Snake::setEnabled(bool enabled){
+    isEnabled = enabled;
+}
+
+bool Snake::IsAi() const{
+    return isAi;
+}
+
+void Snake::setAi(bool isAi){
+    this->isAi = isAi;
+}
+
+QString Snake::getName() const{
+    if(!name.isEmpty()){
+        return name;
+    }
+    return "Unnamed Snake";
+    
+}
+
+void Snake::setName(QString name){
+    this->name = name;
 }

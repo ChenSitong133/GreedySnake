@@ -1,11 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "page/MiddlePage.h"
 #pragma once
 
 
 #include <QMainWindow>
 #include "page/StartPage.h"
 #include "page/GamePage.h"
+#include "page/MiddlePage.h"
 #include <QStackedWidget>
 #include <QFile>
 
@@ -20,6 +22,7 @@ public:
 private:
     StartPage* startPage;
     GamePage* gamePage;
+    MiddlePage* middlePage;
 
     QStackedWidget* stackedWidget;
 

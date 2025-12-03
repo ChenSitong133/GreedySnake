@@ -14,6 +14,8 @@ qt_add_executable(GreedySnake
     page/StartPage.h
     page/GamePage.cpp
     page/GamePage.h
+    page/MiddlePage.cpp
+    page/MiddlePage.h
     snake/Snake.cpp
     snake/Snake.h
     component/UpBar.cpp

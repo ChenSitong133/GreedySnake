@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
+    
 }
 
 void MainWindow::initUI(){
@@ -31,10 +31,13 @@ void MainWindow::initUI(){
 
     startPage = new StartPage(this);
     gamePage = new GamePage(this);
+    middlePage = new MiddlePage(this);
 
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(startPage);
     stackedWidget->addWidget(gamePage);
+    stackedWidget->addWidget(middlePage);
+
     setCentralWidget(stackedWidget);
 
     stackedWidget->setCurrentWidget(startPage);
@@ -42,8 +45,11 @@ void MainWindow::initUI(){
 
 void MainWindow::initConnections(){
     connect(startPage, &StartPage::StartPageStart, this, [=](){
-        stackedWidget->setCurrentWidget(gamePage);
+        stackedWidget->setCurrentWidget(middlePage);
         // gamePage->reset();
+    });
+    connect(middlePage, &MiddlePage::startGame, this, [=](){
+        stackedWidget->setCurrentWidget(gamePage);
     });
     connect(gamePage, &GamePage::exitGame, this, [this](){
         stackedWidget->setCurrentWidget(startPage);

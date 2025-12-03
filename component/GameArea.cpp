@@ -39,9 +39,32 @@ void GameArea::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     // 绘制背景
     painter.fillRect(rect(), Qt::white);
+    Snake::Colour colour = snake->getColour();
+    painter.setBrush(Qt::green);
+    painter.setPen(Qt::NoPen);
+    switch(colour){
+        case Snake::RED:
+            painter.setBrush(Qt::red);
+            break;
+        case Snake::BLUE:
+            painter.setBrush(Qt::blue);
+            break;
+        case Snake::GREEN:
+            painter.setBrush(Qt::green);
+            break;
+        case Snake::YELLOW:
+            painter.setBrush(Qt::yellow);
+            break;
+        case Snake::BLACK:
+            painter.setBrush(Qt::black);
+            break;
+        case Snake::MAGENTA:
+            painter.setBrush(Qt::magenta);
+            break;
+        default:
+            break;
+    }
     for (const QPoint &snake_part : snake->getBody()) {
-        painter.setBrush(Qt::green);
-        painter.setPen(Qt::NoPen);
         painter.drawEllipse(snake_part.x() - snake->getSize()/2, snake_part.y() - snake->getSize()/2, snake->getSize(), snake->getSize());
     }
 

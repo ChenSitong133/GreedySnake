@@ -11,7 +11,9 @@ class Snake : public QObject {
 public:
     Snake();
     Snake(int size, int speed, int FPS);
+    Snake(int size, int speed, int FPS, bool isAi, QPoint initialPosition);
     enum  Direction { UP, DOWN, LEFT, RIGHT };
+    enum  Colour { RED, GREEN, BLUE, YELLOW, BLACK, MAGENTA };
     void setDirection( Direction direction);
     Direction getDirection() const;
     QPoint getHead() const;
@@ -21,24 +23,41 @@ public:
     int getSpeed() const;
     void setSpeed(int speed);
     int getTotalLength() const;
+    Colour getColour() const;
+    void setColour(Colour colour);
+    bool IsAi() const;
+    void setAi(bool isAi);
+    bool IsEnabled() const;
+    void setEnabled(bool enabled);
+    QString getName() const;
+    void setName(QString name);
     void move();
 
     void eat(Food* food);
     void grow();
     void reGenerate();
 
+
     
 private:
     QVector<QPoint> body;
     Direction direction = UP;
+    Colour colour = GREEN;
     QPoint head;
     int speed = 100;
     int size = 10;
     int score = 0;
     int stepLength = 1;
     int FPS = 100;
+    bool isAi = false;
+    bool isEnabled = true;
+    QString name;
 
     void generate();
+    void generate(QPoint initialPosition);
+
+    
+
 
     friend class Food;
 signals:

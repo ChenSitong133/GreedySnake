@@ -23,6 +23,9 @@ protected:
 
 private:
     Snake *snake;
+    Snake *snake2;
+    Snake *snake3;
+    
     QTimer *timer;
     int FPS = 100;
     bool is_Running = false;
