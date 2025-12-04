@@ -1,4 +1,5 @@
 #include "Food.h"
+#include "qpixmap.h"
 #include "qpoint.h"
 
 
@@ -31,4 +32,8 @@ int Food::getY() const{
 
 QSize Food::getSize() const{
     return size;
+}
+
+QPixmap Food::getFoodPixmap() const{
+    return foodPixmap;
 }

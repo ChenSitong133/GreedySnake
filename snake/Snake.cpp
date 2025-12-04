@@ -18,35 +18,30 @@ Snake::Snake(int size, int speed, int FPS){
     generate();
 }
 
-Snake::Snake(int size, int speed, int FPS, bool isAi, QPoint initialPosition){
+Snake::Snake(int size, int speed, int FPS,bool isEnabled, bool isAi, QPoint initialPosition){
     this->size = size;
     this->speed = speed;
     this->FPS = FPS;
     this->stepLength = speed / FPS;
     this->score = 0;
-    this->isAi = isAi;
+    if(isEnabled){
+        this->setEnabled(true);
+        if(isAi){
+            this->isAi = true;
+        }else{
+            this->isAi = false;
+        }
+    }else{
+        this->isAlive = false;
+        this->isAi = false;
+        this->setEnabled(false);
+    }
+    this->initialPosition.setX(initialPosition.x());
+    this->initialPosition.setY(initialPosition.y());
     generate(initialPosition);
 }
 
-// Snake::Snake(int size, int speed, int FPS, Snake::Controller controller, QPoint initialPosition){
-//     this->size = size;
-//     this->speed = speed;
-//     this->FPS = FPS;
-//     this->stepLength = speed / FPS;
-//     this->score = 0;
-//     this->controller = controller;
-//     if(controller == Snake::AI){
-//         this->isAi = true;
-//         this->setEnabled(true);
-//     }else if(controller == Snake::ENABLED){
-//         this->isAi = false;
-//         this->setEnabled(true);
-//     }else{
-//         this->isAi = false;
-//         this->setEnabled(false);
-//     }
-//     generate(initialPosition);
-// }
+
 
 QVector<QPoint> Snake::getBody() const
 {
@@ -159,13 +154,14 @@ void Snake::generate(QPoint initialPosition){
     for(int i = 1; i < 50 / stepLength; i++){
         body.append(body.last() + QPoint(0, +stepLength));
     }
+    this->setAlive(true);
 }
 
 void Snake::reGenerate(){
     body.clear();
     score = 0;
     emit scoreChanged(score);
-    generate();
+    generate(this->initialPosition);
 }
 
 int Snake::getSpeed() const{
@@ -195,6 +191,7 @@ bool Snake::IsEnabled() const{
 
 void Snake::setEnabled(bool enabled){
     isEnabled = enabled;
+    setAlive(enabled);
 }
 
 bool Snake::IsAi() const{
@@ -203,6 +200,14 @@ bool Snake::IsAi() const{
 
 void Snake::setAi(bool isAi){
     this->isAi = isAi;
+}
+
+bool Snake::IsAlive() const{
+    return isAlive;
+}
+
+void Snake::setAlive(bool isAlive){
+    this->isAlive = isAlive;
 }
 
 QString Snake::getName() const{

@@ -1,0 +1,9 @@
+#pragma once
+
+#include <QDir>
+#include <QApplication>
+#include <QCoreApplication>
+#include <QString>
+
+QString getImagePath(const QString& imageName);
+

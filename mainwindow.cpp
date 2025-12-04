@@ -74,6 +74,9 @@ void MainWindow::initConnections(){
         stackedWidget->setCurrentWidget(startPage);
     });
     connect(startPage, &StartPage::StartPageExit, this, &QApplication::quit);
+
+    connect(middlePage, &MiddlePage::changePlayerColour, gamePage, &GamePage::setPlayerColour);
+    connect(middlePage, &MiddlePage::changePlayerController, gamePage, &GamePage::setPlayerController);
 }
 
 void MainWindow::applyTheme(QString theme){

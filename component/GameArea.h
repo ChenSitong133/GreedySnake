@@ -4,6 +4,7 @@
 #include <QPainter>
 #include "../snake/Snake.h"
 #include <QTimer>
+#include <qaction.h>
 #include "../food/Food.h"
 #include "GameOverDialog.h"
 
@@ -16,6 +17,8 @@ public:
     void start();
     void stop();
     bool isRunning() const;
+    int getSnakeNumber() const;
+    int getSnakeScore(Snake *snake);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -35,15 +38,20 @@ private:
     void generateFood();
     bool checkEatFood(Snake *snake, Food *food);
     bool checkCollision(Snake *snake);
+    bool checkCollisionBetweenSnakes(Snake *snake1, Snake *snake2);
     void printSnake(QPainter &painter, Snake *snake);
     void controlSnake(QKeyEvent *event, Snake *snake, Snake::Control control);
 
 public slots:
     void restart();
     void exitGame();
+    void setSnakeColour(int player, Snake::Colour colour);
+    void setSnakeController(int player, Snake::Controller controller);
+    void snakeDied(Snake *snake);
 
 signals:
     void scoreChanged(int score);
     void gameOver();
+    void snakeCollided(Snake *snake);
 
 };

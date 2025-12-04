@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QPoint>
 #include "../food/Food.h"
+#include "qpoint.h"
 #include "qtmetamacros.h"
 
 class Snake : public QObject {
@@ -11,8 +12,7 @@ class Snake : public QObject {
 public:
     Snake();
     Snake(int size, int speed, int FPS);
-    Snake(int size, int speed, int FPS, bool isAi, QPoint initialPosition);
-    // Snake(int size, int speed, int FPS, Snake::Controller controller, QPoint initialPosition);
+    Snake(int size, int speed, int FPS,bool isEnabled, bool isAi, QPoint initialPosition);
     enum  Direction { UP, DOWN, LEFT, RIGHT };
     enum  Colour { RED, GREEN, BLUE, YELLOW, BLACK, MAGENTA };
     enum  Control { WASD, IJKL , COMMON};
@@ -32,6 +32,8 @@ public:
     void setAi(bool isAi);
     bool IsEnabled() const;
     void setEnabled(bool enabled);
+    bool IsAlive() const;
+    void setAlive(bool isAlive);
     void setController(Controller controller);
     Controller getController() const;
     QString getName() const;
@@ -57,8 +59,10 @@ private:
     int stepLength = 1;
     int FPS = 100;
     bool isAi = false;
-    bool isEnabled = true;
+    bool isEnabled = false;
+    bool isAlive = false;
     QString name;
+    QPoint initialPosition;
 
     void generate();
     void generate(QPoint initialPosition);

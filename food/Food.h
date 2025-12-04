@@ -12,11 +12,13 @@ class Food : public QObject
     Q_OBJECT
 public:
     explicit Food(QObject *parent = nullptr);
+    enum FoodType {};
     void generate(int x = 0, int y = 0, int width = 10, int height = 10);
     QPoint getPosition() const;
     int getX() const;
     int getY() const;
     QSize getSize() const;
+    QPixmap getFoodPixmap() const;
 
 private:
     QPoint position;
