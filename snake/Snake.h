@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QPoint>
 #include "../food/Food.h"
+#include "qpoint.h"
 #include "qtmetamacros.h"
 
 class Snake : public QObject {
@@ -11,9 +12,11 @@ class Snake : public QObject {
 public:
     Snake();
     Snake(int size, int speed, int FPS);
-    Snake(int size, int speed, int FPS, bool isAi, QPoint initialPosition);
+    Snake(int size, int speed, int FPS,bool isEnabled, bool isAi, QPoint initialPosition);
     enum  Direction { UP, DOWN, LEFT, RIGHT };
     enum  Colour { RED, GREEN, BLUE, YELLOW, BLACK, MAGENTA };
+    enum  Control { WASD, IJKL , COMMON};
+    enum  Controller { ENABLED, DISABLED ,AI};
     void setDirection( Direction direction);
     Direction getDirection() const;
     QPoint getHead() const;
@@ -22,6 +25,9 @@ public:
     int getSize() const;
     int getSpeed() const;
     void setSpeed(int speed);
+    int getFPS() const;
+    void setFPS(int FPS);
+    int getStepLength() const;
     int getTotalLength() const;
     Colour getColour() const;
     void setColour(Colour colour);
@@ -29,6 +35,10 @@ public:
     void setAi(bool isAi);
     bool IsEnabled() const;
     void setEnabled(bool enabled);
+    bool IsAlive() const;
+    void setAlive(bool isAlive);
+    void setController(Controller controller);
+    Controller getController() const;
     QString getName() const;
     void setName(QString name);
     void move();
@@ -43,6 +53,8 @@ private:
     QVector<QPoint> body;
     Direction direction = UP;
     Colour colour = GREEN;
+    Control control = COMMON;
+    Controller controller = DISABLED;
     QPoint head;
     int speed = 100;
     int size = 10;
@@ -50,8 +62,10 @@ private:
     int stepLength = 1;
     int FPS = 100;
     bool isAi = false;
-    bool isEnabled = true;
+    bool isEnabled = false;
+    bool isAlive = false;
     QString name;
+    QPoint initialPosition;
 
     void generate();
     void generate(QPoint initialPosition);

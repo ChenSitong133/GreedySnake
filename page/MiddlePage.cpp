@@ -3,12 +3,15 @@
 #include "qdir.h"
 #include "qlabel.h"
 #include "qmessagebox.h"
+#include "qpixmap.h"
 #include "qpushbutton.h"
 #include "qmenu.h"
 #include <QApplication>
 #include <QDir>
 #include <QCoreApplication>
 #include <QPixmap>
+#include <qtmetamacros.h>
+#include "../tools/Tools.h"
 
 MiddlePage::MiddlePage(QWidget *parent) : QWidget(parent)
 {
@@ -27,22 +30,18 @@ void MiddlePage::initUI()
 
     playerImage1 = new QLabel(this);
     playerImage1->setScaledContents(true);
-    QDir appDir(QCoreApplication::applicationDirPath());
-    QString imageDir = QDir(appDir.filePath("..")).filePath("image/green.jpg");
-    playerImage1->setPixmap(QPixmap(imageDir));
+    playerImage1->setPixmap(QPixmap(getImagePath("green.jpg")));
 
     playerImage2 = new QLabel(this);
     playerImage2->setScaledContents(true);
-    imageDir = QDir(appDir.filePath("..")).filePath("image/notEnabled.jpg");
-    playerImage2->setPixmap(QPixmap(imageDir));
+    playerImage2->setPixmap(QPixmap(getImagePath("notEnabled.jpg")));
 
     playerImage3 = new QLabel(this);
     playerImage3->setScaledContents(true);
-    imageDir = QDir(appDir.filePath("..")).filePath("image/notEnabled.jpg");
-    playerImage3->setPixmap(QPixmap(imageDir));
+    playerImage3->setPixmap(QPixmap(getImagePath("notEnabled.jpg")));
 
     playerColour1 = new QToolButton(this);
-    playerColour1->setText("green");
+    playerColour1->setText("Green");
     playerColour1->setPopupMode(QToolButton::InstantPopup);
     playerColour2 = new QToolButton(this);
     playerColour2->setText("colour");
@@ -110,16 +109,16 @@ void MiddlePage::initUI()
     colourMenu1->addAction("Green");
     colourMenu1->addAction("Blue");
     colourMenu1->addAction("Yellow");
-    colourMenu1->addAction("black");
-    colourMenu1->addAction("magenta");
+    colourMenu1->addAction("Black");
+    colourMenu1->addAction("Magenta");
 
     colourMenu2 = new QMenu(this);
     colourMenu2->addAction("Red");
     colourMenu2->addAction("Green");
     colourMenu2->addAction("Blue");
     colourMenu2->addAction("Yellow");
-    colourMenu2->addAction("black");
-    colourMenu2->addAction("magenta");
+    colourMenu2->addAction("Black");
+    colourMenu2->addAction("Magenta");
 
 
     colourMenu3 = new QMenu(this);
@@ -127,8 +126,8 @@ void MiddlePage::initUI()
     colourMenu3->addAction("Green");
     colourMenu3->addAction("Blue");
     colourMenu3->addAction("Yellow");
-    colourMenu3->addAction("black");
-    colourMenu3->addAction("magenta");
+    colourMenu3->addAction("Black");
+    colourMenu3->addAction("Magenta");
 
     playerColour1->setMenu(colourMenu1);
     playerColour2->setMenu(colourMenu2);
@@ -155,7 +154,9 @@ void MiddlePage::initConnections(){
         }else{
             QMessageBox::warning(this, "Warning", "Please select at least one player");
         }
-
+    });
+    connect(exitButton, &QPushButton::clicked, this, [this](){
+        emit exitGame();
     });
     connect(colourMenu1, &QMenu::triggered, this, &MiddlePage::MiddlePage::changePlayerColour1);
     connect(colourMenu2, &QMenu::triggered, this, &MiddlePage::MiddlePage::changePlayerColour2);
@@ -166,69 +167,45 @@ void MiddlePage::initConnections(){
 }
 
 void MiddlePage::changePlayerColour1(QAction *action){
+    if(playerControl1->text() == "Disabled"){
+        return;
+    }
     QDir appDir(QCoreApplication::applicationDirPath());
     QString imageDir;
     
     QString colour = action->text();
-    if(colour == "Red"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/red.jpg");
-    }else if(colour == "Green"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/green.jpg");
-    }else if(colour == "Blue"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/blue.jpg");
-    }else if(colour == "Yellow"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/yellow.jpg");
-    }else if(colour == "black"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/black.jpg");
-    }else if(colour == "magenta"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/magenta.jpg");
-    }
+    imageDir = getImagePath(colour+".jpg");
+    emit changePlayerColour(1, action);
     playerImage1->setPixmap(QPixmap(imageDir));
     playerColour1->setText(colour);
 
 }
 
 void MiddlePage::changePlayerColour2(QAction *action){
+    if(playerControl2->text() == "Disabled"){
+        return;
+    }
     QDir appDir(QCoreApplication::applicationDirPath());
     QString imageDir;
     
     QString colour = action->text();
-    if(colour == "Red"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/red.jpg");
-    }else if(colour == "Green"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/green.jpg");
-    }else if(colour == "Blue"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/blue.jpg");
-    }else if(colour == "Yellow"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/yellow.jpg");
-    }else if(colour == "black"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/black.jpg");
-    }else if(colour == "magenta"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/magenta.jpg");
-    }
+    imageDir = getImagePath(colour+".jpg");
+    emit changePlayerColour(2, action);
     playerImage2->setPixmap(QPixmap(imageDir));
     playerColour2->setText(colour);
 
 }
 
 void MiddlePage::changePlayerColour3(QAction *action){
+    if(playerControl3->text() == "Disabled"){
+        return;
+    }
     QDir appDir(QCoreApplication::applicationDirPath());
     QString imageDir;
     
     QString colour = action->text();
-    if(colour == "Red"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/red.jpg");
-    }else if(colour == "Green"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/green.jpg");
-    }else if(colour == "Blue"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/blue.jpg");
-    }else if(colour == "Yellow"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/yellow.jpg");
-    }else if(colour == "black"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/black.jpg");
-    }else if(colour == "magenta"){
-        imageDir = QDir(appDir.filePath("..")).filePath("image/magenta.jpg");
-    }
+    imageDir = getImagePath(colour+".jpg");
+    emit changePlayerColour(3, action);
     playerImage3->setPixmap(QPixmap(imageDir));
     playerColour3->setText(colour);
 
@@ -238,45 +215,48 @@ void MiddlePage::changePlayerControl1(QAction *action){
     QString control = action->text();
     playerControl1->setText(control);
     if(control == "Enabled"){
-        playerImage1->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour1->setText("green");
+        playerImage1->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour1->setText("Green");
     }else if(control == "Disabled"){
-        playerImage1->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\notEnabled.jpg")));
+        playerImage1->setPixmap(QPixmap(getImagePath("notEnabled.jpg")));
         playerColour1->setText("colour");
     }else if(control == "AI"){
-        playerImage1->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour1->setText("green");
+        playerImage1->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour1->setText("Green");
     }
+    emit changePlayerController(1, action);
 }
 
 void MiddlePage::changePlayerControl2(QAction *action){
     QString control = action->text();
     playerControl2->setText(control);
     if(control == "Enabled"){
-        playerImage2->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour2->setText("green");
+        playerImage2->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour2->setText("Green");
     }else if(control == "Disabled"){
-        playerImage2->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\notEnabled.jpg")));
+        playerImage2->setPixmap(QPixmap(getImagePath("notEnabled.jpg")));
         playerColour2->setText("colour");
     }else if(control == "AI"){
-        playerImage2->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour2->setText("green");
+        playerImage2->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour2->setText("Green");
     }
+    emit changePlayerController(2, action);
 }
 
 void MiddlePage::changePlayerControl3(QAction *action){
     QString control = action->text();
     playerControl3->setText(control);
     if(control == "Enabled"){
-        playerImage3->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour2->setText("green");
+        playerImage3->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour3->setText("Green");
     }else if(control == "Disabled"){
-        playerImage3->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\notEnabled.jpg")));
+        playerImage3->setPixmap(QPixmap(getImagePath("notEnabled.jpg")));
         playerColour3->setText("colour");
     }else if(control == "AI"){
-        playerImage3->setPixmap(QPixmap(QDir(QCoreApplication::applicationDirPath()).filePath("..\\image\\green.jpg")));
-        playerColour3->setText("green");
+        playerImage3->setPixmap(QPixmap(getImagePath("green.jpg")));
+        playerColour3->setText("Green");
     }
+    emit changePlayerController(3, action);
 }
 
 int MiddlePage::getPlayerNumber(){
