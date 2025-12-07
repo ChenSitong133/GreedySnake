@@ -30,12 +30,10 @@ qt_add_executable(GreedySnake
     component/GameOverDialog.h
     food/Food.cpp
     food/Food.h
-<<<<<<< HEAD
-    page/Difficultypage.h page/Difficultypage.cpp
-=======
-    tools/Tools.cpp
-    tools/Tools.h
->>>>>>> 74d44026d6f82ef9737241204da208c96f924eda
+    page/Difficultypage.h
+     page/Difficultypage.cpp
+     tools/Tools.h
+     tools/tools.cpp
 
 
 )
