@@ -1,6 +1,7 @@
 #include "GameOverDialog.h"
 #include "qpixmap.h"
 #include <QCoreApplication>
+#include "../tools/Tools.h"
 
 GameOverDialog::GameOverDialog(QWidget *parent){
     initUI();
@@ -12,11 +13,8 @@ void GameOverDialog::initUI(){
     setFixedSize(300, 300);
     
     imageLabel = new QLabel(this);
-    QDir appDir(QCoreApplication::applicationDirPath());
-    QString imageDir = QDir(appDir.filePath("..")).filePath("image/gameOver.jpg");
-
     imageLabel->setScaledContents(true);
-    imageLabel->setPixmap(QPixmap(imageDir));
+    imageLabel->setPixmap(QPixmap(getImagePath("gameOver.jpg")));
     restartBtn = new QPushButton("Restart", this);
     exitBtn = new QPushButton("Exit", this);
 

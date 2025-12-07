@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QApplication>
+#include "tools/Tools.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,9 +25,7 @@ MainWindow::~MainWindow()
 void MainWindow::initUI(){
     this->setWindowTitle("Greedy Snake");
 
-    QDir appDir(QCoreApplication::applicationDirPath());
-    QString iconDir = QDir(appDir.filePath("..")).filePath("icon.ico");
-    QIcon icon(iconDir);
+    QIcon icon(getIconPath("icon.ico"));
     this->setWindowIcon(icon);
 
     startPage = new StartPage(this);
@@ -61,6 +60,9 @@ void MainWindow::initConnections(){
     connect(middlePage, &MiddlePage::startGame, this, [=](){
         stackedWidget->setCurrentWidget(gamePage);
     });
+    connect(middlePage, &MiddlePage::exitGame, this, [=](){
+        stackedWidget->setCurrentWidget(startPage);
+    });
     connect(gamePage, &GamePage::exitGame, this, [this](){
         stackedWidget->setCurrentWidget(startPage);
     });
@@ -71,16 +73,14 @@ void MainWindow::initConnections(){
         stackedWidget->setCurrentWidget(startPage);
     });
     connect(startPage, &StartPage::StartPageExit, this, &QApplication::quit);
+
+    connect(middlePage, &MiddlePage::changePlayerColour, gamePage, &GamePage::setPlayerColour);
+    connect(middlePage, &MiddlePage::changePlayerController, gamePage, &GamePage::setPlayerController);
 }
 
 void MainWindow::applyTheme(QString theme){
-    // 计算可移植的 styles 路径：exe 在 build 目录，styles 在项目根的 styles/ 下
-    QDir appDir(QCoreApplication::applicationDirPath());
-    // 假设可执行文件位于项目的 build 子目录，styles 在上一级目录的 styles 文件夹
-    QString stylesDir = QDir(appDir.filePath("..")).filePath("styles");
-    QString fileName = (theme == "dark") ? "dark.qss" : "light.qss";
-    QString path = QDir(stylesDir).filePath(fileName);
-    QFile file(path);
+    QString styleSheetPath = getstylesheetPath(theme + ".qss");
+    QFile file(styleSheetPath);
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QString styleSheet = QString::fromUtf8(file.readAll());
         qApp->setStyleSheet(styleSheet);

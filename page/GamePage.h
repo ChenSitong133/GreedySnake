@@ -1,6 +1,7 @@
 #pragma once
 #include <QWidget>
 #include <QGraphicsWidget>
+#include <qaction.h>
 #include "../component/UpBar.h"
 #include "../component/GameArea.h"
 #include "qtmetamacros.h"
@@ -27,6 +28,9 @@ public:
     
 public slots:
     void reset();
+    void setPlayerColour(int player, QAction *action);
+    void setPlayerController(int player, QAction *action);
+
 
 };
 

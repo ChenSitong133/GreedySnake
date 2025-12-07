@@ -1,6 +1,8 @@
 #pragma once
+
 #include "GamePage.h"
 #include "../component/GameOverDialog.h"
+#include <qaction.h>
 
 GamePage::GamePage(QWidget *parent) : QWidget(parent){
     initUI();
@@ -42,4 +44,34 @@ void GamePage::initConnect(){
 void GamePage::reset(){
     // gameArea->restart();
     
+}
+
+void GamePage::setPlayerColour(int player, QAction *action){
+    Snake::Colour colour;
+    if(action->text() == "Red"){
+        colour = Snake::RED;
+    }else if(action->text() == "Green"){
+        colour = Snake::GREEN;
+    }else if(action->text() == "Blue"){
+        colour = Snake::BLUE;
+    }else if(action->text() == "Yellow"){
+        colour = Snake::YELLOW;
+    }else if(action->text() == "Black"){
+        colour = Snake::BLACK;
+    }else if(action->text() == "Magenta"){
+        colour = Snake::MAGENTA;
+    }
+    gameArea->setSnakeColour(player, colour);
+}
+
+void GamePage::setPlayerController(int player, QAction *action){
+    Snake::Controller controller;
+    if(action->text() == "Enabled"){
+        controller = Snake::ENABLED;
+    }else if(action->text() == "Disabled"){
+        controller = Snake::DISABLED;
+    }else if(action->text() == "AI"){
+        controller = Snake::AI;
+    }
+    gameArea->setSnakeController(player, controller);
 }
