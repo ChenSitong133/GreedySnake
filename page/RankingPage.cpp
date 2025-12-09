@@ -182,8 +182,7 @@ void RankingPage::onUpdateScoreRankings(QString name, int score){
     }
     // save to file
     saveRankings();
-
-
+    
 }
 
 void RankingPage::changeLanguage(QString lang){
