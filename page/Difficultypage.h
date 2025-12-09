@@ -13,11 +13,11 @@ class DifficultyPage : public QWidget
 public:
     DifficultyPage(QWidget *parent = nullptr);  // 不要 explicit
     void changeLanguage(QString language);
-    QPushButton *btnEasy;
-    QPushButton *btnNormal;
-    QPushButton *btnHard ;
-    QPushButton *btnBack;
-    QLabel *label;
+    QPushButton *btnEasy;   //简单难度按钮
+    QPushButton *btnNormal;     //普通难度按钮
+    QPushButton *btnHard ;     //困难难度按钮
+    QPushButton *btnBack;      //返回按钮
+    QLabel *label;  //游戏难度选择标签
 
 signals:
     void difficultySelected(int level);

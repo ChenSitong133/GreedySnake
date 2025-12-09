@@ -127,17 +127,28 @@ void MainWindow::applyTheme(QString theme){
     }
 }
 
+// blx的
+// 设置音乐播放器
+// 在初始化时创建音频播放器，并设置音量、音乐文件路径、循环播放
+
 void MainWindow::setupAudio()
 {
     // 创建音频播放器
     audioOutput = new QAudioOutput(this);
+    // 设置音量
     audioOutput->setVolume(0.5);
 
+    // 创建音乐媒体播放器
     mediaPlayer = new QMediaPlayer(this);
+    // 设置音频输出
     mediaPlayer->setAudioOutput(audioOutput);
+    // ai和网上教程是这样写的，不是很清楚为什么，就跟着写了
 
+    // 设置音乐文件路径
     mediaPlayer->setSource(QUrl::fromLocalFile(getMusicPath("background.mp3")));
+    // 设置循环播放
     mediaPlayer->setLoops(QMediaPlayer::Infinite);
+    // 播放音乐
     mediaPlayer->play();
 }
 
